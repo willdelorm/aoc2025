@@ -60,7 +60,7 @@ Since I do not want to step through every click in the input data (potentially m
         - Find the base value with `position % 100`.
         - If base == 0, set it to 100.
     - Else bad value.
-    - If base is <= 0:
+    - If base is <= distance:
         - Add `1 + (distance - base) // 100` to counter.
     - Else don't add to counter.
 
