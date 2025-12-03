@@ -15,11 +15,10 @@ The dial on the safe has values ranging from 0 to 99, and starts at 50. To find 
 
 - Read the input file and separate instructions by line.
 - Set the intial position to 50 and the counter to 0.
-- Convert each instruction to an integer:
+- For each instruction:
     - If the direction is R, set it positive.
     - If the direction is L, set it negative.
-- For each instruction:
-    - Add the integer to the position.
+    - Add the distance to the position.
     - Adjust the position to fall within 0 and 99, inclusive.
     - If the position is 0, increment the counter.
 - Return the counter value.
@@ -36,3 +35,39 @@ const mod = (m, n) => ((m % n) + n) % n;
 
 ## Part 2
 
+Turns out that the above answer is not the password. "Due to newer security protocols, please use **password method 0x434C49434B** until further notice."
+
+In part 2, the password is actually the number of times the dial clicks on 0 during any rotation in addition to when it ends on 0. This complicates matters a bit further.
+
+Since I do not want to step through every click in the input data (potentially millions of clicks that would take far too long), I need to mathematically solve how many times the dial clicks over 0. To do so:
+
+- Find the base value where `(position + base) % 100 == 0`.
+- If the base value is greater than the distance, that instruction does not click over 0.
+- Otherwise, the instruction will click over 0 at `base` clicks and every 100 afterward.
+
+### Pseudo-code:
+
+- Read the input file and separate instructions by line.
+- Set the intial position to 50 and the counter to 0.
+- Convert each instruction to an integer:
+    - If the direction is R, set it positive.
+    - If the direction is L, set it negative.
+- For each instruction:
+    - If integer is positive:
+        - Find the base value with `(-position) % 100`.
+        - If base == 0, set it to 100.
+    - Else if integer is negative:
+        - Find the base value with `position % 100`.
+        - If base == 0, set it to 100.
+    - Else bad value.
+    - If base is <= 0:
+        - Add `1 + (distance - base) // 100` to counter.
+    - Else don't add to counter.
+
+    - Add the distance to the position.
+    - Adjust the position to fall within 0 and 99, inclusive.
+- Return the counter value.
+
+### Reflection
+
+The math of this took a lot of tinkering. First, I had to find how far the dial needed to go to hit the first 0. Once I had that, I could calculate the number of additional zeros based on the number of additional full rotations. As long as the base was less than or equal to the distance, the dial would hit zero at least once.
