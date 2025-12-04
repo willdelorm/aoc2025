@@ -62,19 +62,24 @@ function sumMoreInvalidIds(inputFile) {
       // Determine if num is invalid
       let isInvalidNum = false;
       for (let i = 1; i < Math.floor(nLen / 2) + 1; i++) {
+        // Values that do not evenly divide into the length are skipped
         if (nLen % i != 0) continue;
 
+        // Values that divide less than twice are skipped.
         let k = Math.floor(nLen / i);
         if (k < 2) continue;
 
+        // Leading zeros are skipped
         let block = sNum.slice(0, i);
         if (block[0] == "0") continue;
 
+        // Check if the repeated block matches
         if (block.repeat(k) == sNum) {
           isInvalidNum = true;
         }
       }
 
+      // Add Invalid IDs to the sum
       if (isInvalidNum) {
         sum += num;
       }
