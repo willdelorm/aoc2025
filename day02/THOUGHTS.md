@@ -75,3 +75,11 @@ Logic this:
     - increment number to check.
 
 - Return the sum.
+
+## Part 2
+
+More bad IDs! Now, there are invalid IDs for any sequence of digits that repeats **at least** twice.
+
+Initially, I overengineered this problem because I thought I would have to check every permutation of possible repetition for each ID. Brain melting!! I then realized as long as an ID possessed one repeating sequence, it qualified.
+
+For each value within a range, each sequence of length 1 to about half of the value's length needs to be checked for eligibility. We can rule out sequences that don't divide evenly into the value's length or that don't repeat at least twice. Then we are left with possible options that can be repeated and checked against the value itself.
